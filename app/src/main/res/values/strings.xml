@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Lottery DBOne</string>
+    <string name="name">Name</string>
+    <string name="location">Location</string>
+    <string name="hint_name">Last name</string>
+    <string name="hint_location">City</string>
+    <string name="back">Back</string>
+</resources>
