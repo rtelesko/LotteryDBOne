@@ -9,6 +9,17 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+    /*
+    Usage of  program DB Browser for SQLite (http://sqlitebrowser.org/)
+    Find database with the Device File Explorer (https://developer.android.com/studio/debug/device-file-explorer)
+
+    See for details https://developer.android.com/reference/android/database/sqlite/SQLiteOpenHelper
+
+    If you want to execute something in database without concerning its output (e.g create/alter tables),
+    then use execSQL, but if you are expecting some results in return against your query (e.g. select records)
+    then use rawQuery.
+    */
+
 public class DBHandler extends SQLiteOpenHelper {
     private static final int DB_VERSION = 1;
     private static final String DB_NAME = "playerdb.db";
@@ -38,7 +49,7 @@ public class DBHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // ***** CRD (Create, Read, Delete) Operations ***** //
+    // Necessary CRUD (Create, Read) Operations
 
     // Entering a new player
     public void insertUserDetails(String name, String location) {
@@ -48,16 +59,16 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues cValues = new ContentValues();
         cValues.put(KEY_NAME, name);
         cValues.put(KEY_LOC, location);
-        // Insert the new row, returning the primary key value of the new row
+        // Convenience method for inserting a row into the database: Insert the new row, returning the primary key value of the new row
         long newRowId = db.insert(TABLE_PLAYER, null, cValues);
         db.close();
     }
 
     // Get the player details
     public ArrayList<HashMap<String, String>> getPlayers() {
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<HashMap<String, String>> userList = new ArrayList<>();
-        String query = "SELECT name, location FROM " + TABLE_PLAYER + " order by lower (name)";
+        String query = "SELECT name, location FROM " + TABLE_PLAYER + " order by name, location";
         Cursor cursor = db.rawQuery(query, null);
         while (cursor.moveToNext()) {
             HashMap<String, String> user = new HashMap<>();
@@ -65,27 +76,21 @@ public class DBHandler extends SQLiteOpenHelper {
             user.put("location", cursor.getString(cursor.getColumnIndex(KEY_LOC)));
             userList.add(user);
         }
+        cursor.close();
         return userList;
     }
 
     // Get only the player names
     public ArrayList<String> getPlayerNames() {
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<String> userNames = new ArrayList<>();
         String query = "SELECT name FROM " + TABLE_PLAYER + " order by lower (name)";
         Cursor cursor = db.rawQuery(query, null);
         while (cursor.moveToNext()) {
             userNames.add(cursor.getString(cursor.getColumnIndex(KEY_NAME)));
         }
+        cursor.close();
         return userNames;
-    }
-
-
-    // Delete User Details
-    public void deleteUser(int userid) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_PLAYER, KEY_ID + " = ?", new String[]{String.valueOf(userid)});
-        db.close();
     }
 
 }
