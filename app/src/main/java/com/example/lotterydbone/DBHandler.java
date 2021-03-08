@@ -43,7 +43,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Drop older table if exist
+        // Drop older table if it exists
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLAYER);
         // Create tables again
         onCreate(db);
@@ -72,8 +72,8 @@ public class DBHandler extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query, null);
         while (cursor.moveToNext()) {
             HashMap<String, String> user = new HashMap<>();
-            user.put("name", cursor.getString(cursor.getColumnIndex(KEY_NAME)));
-            user.put("location", cursor.getString(cursor.getColumnIndex(KEY_LOC)));
+            user.put(KEY_NAME, cursor.getString(cursor.getColumnIndex(KEY_NAME)));
+            user.put(KEY_LOC, cursor.getString(cursor.getColumnIndex(KEY_LOC)));
             userList.add(user);
         }
         cursor.close();

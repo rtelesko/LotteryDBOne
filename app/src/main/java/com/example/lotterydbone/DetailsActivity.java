@@ -30,7 +30,7 @@ public class DetailsActivity extends AppCompatActivity {
         ListView lvPlayer = findViewById(R.id.lvPlayer);
         /*
         In Android, a SimpleAdapter is an easy adapter to map static data to views defined in an XML file (layout).
-        In Android you can specify the data backing to a list as an ArrayList of Maps(HashMap or other).
+        In Android you can specify the data backing to a list as an ArrayList of Maps (HashMap or other).
         Each entry in a ArrayList is corresponding to one row of a list. The Map contains the data for each row.
         For parameter details of a SimpleArray see https://abhiandroid.com/ui/simpleadapter.html
         */
