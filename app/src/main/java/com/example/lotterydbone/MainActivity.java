@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String username = etName.getText().toString();
                 String location = etLocation.getText().toString();
-                if (validateInput(etName.getText().toString()) && validateInput(etLocation.getText().toString())) {
+                if (validateInput(username) && validateInput(location)) {
                     DBHandler dbHandler = new DBHandler(MainActivity.this);
                     dbHandler.insertUserDetails(username, location);
                     Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
